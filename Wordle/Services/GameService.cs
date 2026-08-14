@@ -30,31 +30,45 @@ namespace Wordle.Services
         public Guess SumbitGuess(string word)
         {
             if (CurrentGame.IsFinished)
-                throw new InvalidOperationException("the game is aready finished");
+            {
+                throw new InvalidOperationException("The game is already finished.");
+            }
 
-            string normalized = word.Trim().ToUpper();
+            string normalizedWord = word.Trim().ToUpper();
 
-            if (word.Length != 5)
-                throw new ArgumentException("Word must contain exacttly 5 letters");
-            if (!_wordService.IsValidWord(word))
-                throw new ArgumentException("word not found");
+            if (normalizedWord.Length != 5)
+            {
+                throw new ArgumentException("Word must contain exactly 5 letters.");
+            }
+
+            if (!_wordService.IsValidWord(normalizedWord))
+            {
+                throw new ArgumentException("Word not found.");
+            }
 
             Guess guess = _guessEvaluator.Evaluate(
                 CurrentGame.TargetWord,
-                word);
+                normalizedWord
+            );
 
+            
             CurrentGame.Guesses.Add(guess);
 
-            if (normalized == CurrentGame.TargetWord)
+            
+            if (normalizedWord == CurrentGame.TargetWord)
             {
                 CurrentGame.IsWon = true;
                 CurrentGame.IsFinished = true;
             }
-            else if (CurrentGame.Guesses.Count > CurrentGame.MaxAttemts)
+            
+            else if (CurrentGame.Guesses.Count >= CurrentGame.MaxAttempts)
             {
                 CurrentGame.IsFinished = true;
             }
+
             return guess;
         }
+
+
     }
 }

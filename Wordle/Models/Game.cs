@@ -8,7 +8,7 @@ namespace Wordle.Models
     {
         public string TargetWord {  get; set; }=string.Empty;
         public List<Guess> Guesses { get; set; } = new();
-        public int MaxAttemts { get; set; } = 6;
+        public int MaxAttempts { get; set; } = 6;
         public bool IsWon {  get; set; }
         public bool IsFinished { get; set; }
 

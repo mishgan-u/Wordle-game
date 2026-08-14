@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Wordle.Models;
 using Wordle.Services;
-using System.Windows.Media;
-
 
 namespace Wordle
 {
     public partial class MainWindow : Window
     {
         private readonly List<TextBlock> _cells = new();
+
         private readonly GameService _gameService = new();
 
         private int _currentRow = 0;
@@ -23,8 +24,7 @@ namespace Wordle
             InitializeComponent();
 
             LoadCells();
-
-            _gameService.StartNewGame();
+            StartNewGame();
         }
 
         private void LoadCells()
@@ -38,23 +38,56 @@ namespace Wordle
             }
         }
 
+        private void StartNewGame()
+        {
+            _gameService.StartNewGame();
+
+            _currentRow = 0;
+            _currentColumn = 0;
+
+            foreach (TextBlock textBlock in _cells)
+            {
+                textBlock.Text = "";
+                textBlock.Foreground = Brushes.Black;
+
+                if (textBlock.Parent is Border border)
+                {
+                    border.Background = Brushes.Transparent;
+                    border.BorderBrush = Brushes.Gray;
+                }
+            }
+        }
+
+        private void NewGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            StartNewGame();
+        }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+          
+            if (_gameService.CurrentGame.IsFinished)
+                return;
+
+           
             if (_currentRow >= 6)
                 return;
 
+           
             if (e.Key == Key.Back)
             {
                 DeleteLetter();
                 return;
             }
 
+           
             if (e.Key == Key.Enter)
             {
                 SubmitWord();
                 return;
             }
 
+           
             string key = e.Key.ToString();
 
             if (key.Length == 1 && char.IsLetter(key[0]))
@@ -65,6 +98,7 @@ namespace Wordle
 
         private void AddLetter(string letter)
         {
+            
             if (_currentColumn >= 5)
                 return;
 
@@ -86,8 +120,10 @@ namespace Wordle
 
             _cells[index].Text = "";
         }
+
         private void SubmitWord()
         {
+            
             if (_currentColumn < 5)
             {
                 MessageBox.Show("Введите слово из 5 букв.");
@@ -96,6 +132,7 @@ namespace Wordle
 
             string word = "";
 
+           
             for (int column = 0; column < 5; column++)
             {
                 int index = (_currentRow * 5) + column;
@@ -105,16 +142,23 @@ namespace Wordle
 
             try
             {
+                
                 Guess guess = _gameService.SumbitGuess(word);
 
+               
                 ColorCurrentRow(guess);
 
+                
                 if (_gameService.CurrentGame.IsWon)
                 {
-                    MessageBox.Show("Вы победили!");
+                    MessageBox.Show(
+                        $"Вы победили!\nЗагаданное слово: {_gameService.CurrentGame.TargetWord}"
+                    );
+
                     return;
                 }
 
+               
                 if (_gameService.CurrentGame.IsFinished)
                 {
                     MessageBox.Show(
@@ -124,6 +168,7 @@ namespace Wordle
                     return;
                 }
 
+                
                 _currentRow++;
                 _currentColumn = 0;
             }
@@ -162,6 +207,5 @@ namespace Wordle
                 textBlock.Foreground = Brushes.White;
             }
         }
-
     }
 }

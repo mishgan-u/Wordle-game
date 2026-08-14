@@ -11,25 +11,40 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Заголовок -->
         <TextBlock
+            Grid.Row="0"
             Text="WORDLE"
             FontSize="32"
             FontWeight="Bold"
             HorizontalAlignment="Center"
-            Margin="0,10,0,30"/>
+            Margin="0,10,0,15"/>
 
+        <!-- Новая игра -->
+        <Button
+            Grid.Row="1"
+            Content="New Game"
+            Width="120"
+            Height="35"
+            HorizontalAlignment="Center"
+            Margin="0,0,0,20"
+            Focusable="False"
+            Click="NewGameButton_Click"/>
+
+        <!-- Игровое поле 6 x 5 -->
         <UniformGrid
             x:Name="GameGrid"
-            Grid.Row="1"
+            Grid.Row="2"
             Rows="6"
             Columns="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Top">
 
-            <!-- Row 1 -->
+            <!-- Строка 1 -->
             <Border Width="60" Height="60" BorderBrush="Gray" BorderThickness="2" Margin="4">
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
@@ -50,7 +65,7 @@
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
 
-            <!-- Row 2 -->
+            <!-- Строка 2 -->
             <Border Width="60" Height="60" BorderBrush="Gray" BorderThickness="2" Margin="4">
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
@@ -71,7 +86,7 @@
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
 
-            <!-- Row 3 -->
+            <!-- Строка 3 -->
             <Border Width="60" Height="60" BorderBrush="Gray" BorderThickness="2" Margin="4">
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
@@ -92,7 +107,7 @@
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
 
-            <!-- Row 4 -->
+            <!-- Строка 4 -->
             <Border Width="60" Height="60" BorderBrush="Gray" BorderThickness="2" Margin="4">
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
@@ -113,7 +128,7 @@
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
 
-            <!-- Row 5 -->
+            <!-- Строка 5 -->
             <Border Width="60" Height="60" BorderBrush="Gray" BorderThickness="2" Margin="4">
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
@@ -134,7 +149,7 @@
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
 
-            <!-- Row 6 -->
+            <!-- Строка 6 -->
             <Border Width="60" Height="60" BorderBrush="Gray" BorderThickness="2" Margin="4">
                 <TextBlock FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
@@ -158,5 +173,4 @@
         </UniformGrid>
 
     </Grid>
-
 </Window>
